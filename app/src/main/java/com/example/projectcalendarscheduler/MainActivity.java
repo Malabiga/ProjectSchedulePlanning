@@ -1,12 +1,17 @@
 package com.example.projectcalendarscheduler;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -138,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         String getStartDate = tvStartDate.getText().toString();
 
         try {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd H:mm");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             Date dateStart = simpleDateFormat.parse(getStartDate);
             Calendar cal = Calendar.getInstance();
 
@@ -165,9 +170,13 @@ public class MainActivity extends AppCompatActivity {
         return s.substring(0, s.length() - 6);
     }
 
+
+    Boolean Process;
+
     private void addFunc() {
 
         try {
+            Process = false;
             for (Model model : modelList) {
                 if (model.getTask().equals(etTasks.getText().toString())) {
 
@@ -181,55 +190,73 @@ public class MainActivity extends AppCompatActivity {
                     String getStartDate = removeLastChar(tvStartDate.getText().toString());
                     String getEndTime = tvEndDate.getText().toString();
 
-
                     String StartDateModelrem = removeLastChar(getStartModel);
                     try {
 
-                        SimpleDateFormat formatTime = new SimpleDateFormat("H:mm");
+                        SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
 
                         String startRem = getStartTime.substring(11);
                         String endRem = getEndTime.substring(11);
                         String startRemModel = getStartModel.substring(11);
+                        String endtRemModel = getEndModel.substring(11);
 
                         Date dateStart = formatTime.parse(startRem);
                         Date dateEnd = formatTime.parse(endRem);
 
                         Date dateStartModel = formatTime.parse(startRemModel);
+                        Date dateEndModel = formatTime.parse(endtRemModel);
 
                         long longStart = dateStart.getTime();
                         long longEnd = dateEnd.getTime();
 
                         long longStartModel = dateStartModel.getTime();
-
+                        long longEndModel = dateEndModel.getTime();
                         if (StartDateModelrem.equals(getStartDate)) {
-                            if (longStartModel <= longStart && longStartModel <= longEnd) {
-                                tvStartDate.setText(getEndDate);
-                                if (duration.equals("5 mins")) {
-                                    getDurationTime("MINUTE", 5);
-                                } else if (duration.equals("10 mins")) {
-                                    getDurationTime("MINUTE", 10);
-                                } else if (duration.equals("15 mins")) {
-                                    getDurationTime("MINUTE", 15);
-                                } else if (duration.equals("30 mins")) {
-                                    getDurationTime("MINUTE", 30);
-                                } else if (duration.equals("1 hr")) {
-                                    getDurationTime("HOUR", 1);
-                                } else if (duration.equals("2 hrs")) {
-                                    getDurationTime("HOUR", 2);
-                                } else if (duration.equals("3 hrs")) {
-                                    getDurationTime("HOUR", 3);
-                                } else if (duration.equals("5 hrs")) {
-                                    getDurationTime("HOUR", 5);
-                                } else if (duration.equals("1 day")) {
-                                    getDurationTime("DAY", 1);
+                            if ((longStartModel <= longStart && longStartModel<=longEnd) ||(longStartModel >= longStart && longStartModel<=longEnd) ) {
+                                if ((longEndModel >= longStart &&longEndModel >= longEnd)||(longEndModel >= longStart &&longEndModel <= longEnd)) {
+                                    tvStartDate.setText(getEndDate);
+                                    if (duration.equals("5 mins")) {
+                                        getDurationTime("MINUTE", 5);
+                                    } else if (duration.equals("10 mins")) {
+                                        getDurationTime("MINUTE", 10);
+                                    } else if (duration.equals("15 mins")) {
+                                        getDurationTime("MINUTE", 15);
+                                    } else if (duration.equals("30 mins")) {
+                                        getDurationTime("MINUTE", 30);
+                                    } else if (duration.equals("1 hr")) {
+                                        getDurationTime("HOUR", 1);
+                                    } else if (duration.equals("2 hrs")) {
+                                        getDurationTime("HOUR", 2);
+                                    } else if (duration.equals("3 hrs")) {
+                                        getDurationTime("HOUR", 3);
+                                    } else if (duration.equals("5 hrs")) {
+                                        getDurationTime("HOUR", 5);
+                                    } else if (duration.equals("1 day")) {
+                                        getDurationTime("DAY", 1);
+                                    }
+
+                                    Process = true;
                                 }
-                                Toast.makeText(this, "Changed Date and Time", Toast.LENGTH_SHORT).show();
                             }
                         }
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 }
+            }
+
+            if (Process == true) {
+                androidx.appcompat.app.AlertDialog.Builder alert = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this);
+                alert.setMessage("There is already a scheduled time similar to your Task.").setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                AlertDialog alertDialog1 = alert.create();
+                alertDialog1.setTitle("Changed Schedule Time");
+                alertDialog1.show();
             }
         } catch (Exception ex) {
             Toast.makeText(this, "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
@@ -269,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
                         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         calendar.set(Calendar.MINUTE, minute);
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd H:mm");
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                         date_in.setText(simpleDateFormat.format(calendar.getTime()));
                     }
                 };

@@ -77,8 +77,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
                             Date startParse = formatDate.parse(getStartDate);
                             long startDate = startParse.getTime();
 
-                            CharSequence charTime = DateFormat.format("H:mm", date.getTime());
-                            SimpleDateFormat formatTime = new SimpleDateFormat("H:mm");
+                            CharSequence charTime = DateFormat.format("HH:mm", date.getTime());
+                            SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
                             Date dateTime = formatTime.parse((String) charTime);
                             long longTime = dateTime.getTime();
 
