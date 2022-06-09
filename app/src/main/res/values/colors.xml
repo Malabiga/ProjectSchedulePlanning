@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#104B89</color>
+    <color name="purple_500">#104B89</color>//Button
+    <color name="purple_700">#104B89</color> //Header
+    <color name="teal_200">#FFF</color>
+    <color name="teal_700">#104B89</color>
+    <color name="black">#000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="blue">#104B89</color>
+    <color name="lightgray">#FFECECEC</color>
+    <color name="lightlightgray">#f5f5f5</color>
+    <color name="background">#DADEE1</color>
+    <color name="yellow">#F9A01B</color>
+</resources>

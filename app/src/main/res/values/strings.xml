@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Project Calendar Scheduler</string>
+
+    <string-array name="durationType">
+        <item>Select Duration</item>
+        <item>5 mins</item>
+        <item>10 mins</item>
+        <item>15 mins</item>
+        <item>30 mins</item>
+        <item>1 hr</item>
+        <item>2 hrs</item>
+        <item>3 hrs</item>
+        <item>5 hrs</item>
+        <item>1 day</item>
+    </string-array>
+
+    <string-array name="recordItem">
+        <item>10</item>
+        <item>25</item>
+        <item>50</item>
+        <item>100</item>
+    </string-array>
+</resources>
